@@ -1,32 +1,20 @@
-import React from "react";
-import { createClient } from '@supabase/supabase-js'
-import env from "react-dotenv";
+import React, { useEffect, useState } from "react";
+import { getClientsRequest } from "./services/ClientService";
 
 import "./App.css";
 
-
 function App() {
-	const supabaseUrl = env.SUPABASE_URL
-	const supabaseKey = env.SUPABASE_KEY
-	const supabase = createClient(supabaseUrl, supabaseKey)
+	const [clients, setClients] = useState([])
+
+	useEffect(() => {
+		getClients()
+	}, [])
 	
-	const clientes = [
-		{
-			id: 1,
-			nombre: "Kyler",
-			cuota: "$60589",
-		},
-		{
-			id: 2,
-			nombre: "Adell",
-			cuota: "$96499",
-		},
-		{
-			id: 3,
-			nombre: "Libby",
-			cuota: "$33228",
-		},
-	];
+	const getClients = async () => {
+		let { data: clientes, error } = await getClientsRequest();
+		
+		setClients(clientes)
+	}
 
 	return (
 		<div className="h-full w-full">
@@ -45,21 +33,21 @@ function App() {
 						<tr className="bg-slate-800 text-white">
 							<th className="border border-slate-600">Id</th>
 							<th className="border border-slate-600">Cliente</th>
-							<th className="border border-slate-600">Cuota</th>
+							<th className="border border-slate-600">Fecha de alta</th>
 						</tr>
 					</thead>
 					<tbody>
-						{clientes.map((cliente) => {
+						{clients.map((cliente) => {
 							return (
 								<tr key={cliente.id}>
 									<td className="border border-slate-900">
 										{cliente.id}
 									</td>
 									<td className="border border-slate-900">
-										{cliente.nombre}
+										{cliente.name}
 									</td>
 									<td className="border border-slate-900">
-										{cliente.cuota}
+										{cliente.fecha_alta}
 									</td>
 								</tr>
 							);
