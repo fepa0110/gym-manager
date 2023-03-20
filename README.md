@@ -2,8 +2,8 @@
 
 ## Features
 
-[] Navigate beetwen screens
-[] View clients
-[] Add new clients
-[] Add fees to clients
-[] Receive paid of clients
+- [] Navigate beetwen screens
+- [] View clients
+- [x] Add new clients
+- [] Add fees to clients
+- [] Receive paid of clients
