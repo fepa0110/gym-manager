@@ -5,13 +5,13 @@ import "./App.css";
 
 import Header from "./components/Header";
 
-import ClientsScreen from "./screens/ClientsScreen"; './screens/ClientsScreen'
+import ClientsPage from "./screens/ClientsPage"; './screens/ClientsScreen'
 
 export default function App() {
 	return (
 		<>
 			<Header/>
-			<ClientsScreen/>
+			<ClientsPage/>
 		</>
 	);
 }

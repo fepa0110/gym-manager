@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getClientsRequest } from "../services/ClientService";
 
-export default function ClientsScreen() {
+export default function ClientsPage() {
 	const [clients, setClients] = useState([]);
 
 	useEffect(() => {
