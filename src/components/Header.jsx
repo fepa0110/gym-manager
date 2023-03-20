@@ -1,29 +1,25 @@
 import React from "react";
+import { Link } from "wouter";
 
 const Header = () => {
 	return (
 		<>
 			<header className="bg-slate-800 py-4">
 				<div className="container flex justify-between items-center">
-					<a className="text-3xl font-sans uppercase font-semibold text-white">
+					<Link href="/" className="text-3xl font-sans uppercase font-semibold text-white hover:text-orange-500">
 						Gym Manager
-					</a>
+					</Link>
 					<nav className="">
 						<ul className="flex space-x-4 text-white">
 							<li>
-								<a className="hover:text-slate-600" href="#">
+								<Link href="/clientes" className="hover:text-slate-600">
 									Clientes
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a className="hover:text-slate-600" href="#">
+								<Link href="/cuotas" className="hover:text-slate-600">
 									Cuotas
-								</a>
-							</li>
-							<li>
-								<a className="hover:text-slate-600" href="#">
-									Salir
-								</a>
+								</Link>
 							</li>
 						</ul>
 					</nav>
