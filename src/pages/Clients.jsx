@@ -1,6 +1,11 @@
 import Header from "@/components/Header";
 import React, { useEffect, useState } from "react";
-import { getClientsRequest } from "../services/ClientService";
+import Link from "next/link";
+
+import { getClientAmountPayableRequest, getClientsRequest } from "../services/ClientService";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye } from '@fortawesome/free-solid-svg-icons'
 
 export default function Clients() {
 	const [clients, setClients] = useState([]);
@@ -31,6 +36,7 @@ export default function Clients() {
 							<th className="border border-slate-600">Id</th>
 							<th className="border border-slate-600">Cliente</th>
 							<th className="border border-slate-600">Fecha de alta</th>
+							<th className="border border-slate-600">Ver</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -45,6 +51,9 @@ export default function Clients() {
 									</td>
 									<td className="border border-slate-900">
 										{client.fecha_alta}
+									</td>
+									<td className="border border-slate-900 text-center">
+										<Link href={"/Clients/"+client.id}><FontAwesomeIcon icon={faEye} className="text-slate-800 hover:text-cyan-800"/></Link>
 									</td>
 								</tr>
 							);

@@ -7,8 +7,8 @@
 
 ## Features
 
-- [] Navigate beetwen screens
-- [] View clients
+- [x] Navigate beetwen screens
+- [x] View clients
 - [x] Add new clients
 - [] Add fees to clients
 - [] Receive paid of clients

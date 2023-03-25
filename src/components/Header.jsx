@@ -9,7 +9,7 @@ export default function Header() {
 				<div className="container flex justify-between items-center">
 					<Link
 						href="/"
-						className="text-3xl font-sans uppercase font-semibold text-white hover:text-orange-500">
+						className="text-3xl font-sans uppercase font-semibold text-white hover:text-cyan-800">
 						Gym Manager
 					</Link>
 					<nav className="">
