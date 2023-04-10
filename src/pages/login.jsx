@@ -1,11 +1,11 @@
 import Header from "@/components/Header";
+import Layout from "@/components/Layout";
 import React from "react";
 
 export default function login() {
 	return (
-		<>
+		<Layout>
 			<div className="flex flex-col h-screen bg-[url('../assets/gym.webp')] bg-cover">
-				<Header />
 				<div className="flex items-center justify-center flex-1">
 					<div className="w-full max-w-md px-4 py-8 bg-transparent backdrop-blur-md shadow-md rounded-lg">
 						<h2 className="mb-4 text-2xl font-bold text-center text-slate-800">
@@ -51,6 +51,6 @@ export default function login() {
 					</div>
 				</div>
 			</div>
-		</>
+		</Layout>
 	);
 }

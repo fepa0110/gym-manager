@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import Layout from "@/components/Layout";
 import { getClientByIdRequest } from "@/services/ClientService";
 import { getSubscriptionsByClientRequest } from "@/services/SubscriptionService";
 import { useRouter } from "next/router";
@@ -26,8 +27,7 @@ const Clients = ({ data }) => {
 	};
 
 	return (
-		<>
-			<Header />
+		<Layout>
 			<h1 className="text-3xl">{"Cliente " + client.id}</h1>
 			<h3 className="text-xl">{"Nombre: " + client.name}</h3>
 			<h3 className="text-xl">{"Fecha de alta: " + client.fecha_alta}</h3>
@@ -43,7 +43,7 @@ const Clients = ({ data }) => {
 				)
 			})}
 			<h3 className="text-xl">{}</h3>
-		</>
+		</Layout>
 	);
 };
 

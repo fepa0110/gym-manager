@@ -1,10 +1,11 @@
-import Header from "@/components/Header";
+import Layout from "@/components/Layout";
 
 export default function Subscriptions() {
 	return (
-		<>
-			<Header/>
-			<h1>Esta es la pagina de cuotas</h1>
-		</>
+		<Layout>
+			<div className="h-screen">
+				<h1>Esta es la pagina de cuotas</h1>
+			</div>
+		</Layout>
 	);
 }
