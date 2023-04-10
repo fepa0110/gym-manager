@@ -35,7 +35,7 @@ const Clients = ({ data }) => {
 			<h2 className="text-2xl">Cuotas</h2>
 			{data.map((subcription)=>{
 				return(
-					<div className="bg-blue-600 text-white px-2 m-1" key={subcription.id}>
+					<div className="bg-blue-600 text-white px-2 m-1 w-1/4 rounded-lg" key={subcription.id}>
 						<h3 className="text-xl">{"$"+subcription.cuota.precio_mensual}</h3>
 						<h3 className="text-xl">{"Fecha: "+subcription.fecha_cuota}</h3>
 						<h3 className="text-xl">{"Paga:"+subcription.paga}</h3>
