@@ -1,8 +1,21 @@
-import Header from "@/components/Header";
 import Layout from "@/components/Layout";
-import React from "react";
+import { loginWithEmail } from "@/services/LoginService";
+import React, { useRef } from "react";
 
-export default function login() {
+export default function Login() {
+	const emailRef = useRef(null);
+	const passwordRef = useRef(null);
+
+	const  sendLogin = async () => {
+		emailRef.current.focus();
+		passwordRef.current.focus();
+		console.log("email: "+emailRef.current.value);
+		console.log("password: "+passwordRef.current.value);
+
+		let { data, error } = await loginWithEmail(emailRef.current.value,passwordRef.current.value);
+		console.log("data"+JSON.stringify(data, null, 3));
+	};
+
 	return (
 		<Layout>
 			<div className="flex flex-col h-screen bg-[url('../assets/gym.webp')] bg-cover">
@@ -11,11 +24,11 @@ export default function login() {
 						<h2 className="mb-4 text-2xl font-bold text-center text-slate-800">
 							Login
 						</h2>
-						<form>
+						<form onSubmit={handleLogin}>
 							<div className="mb-4">
 								<label
 									className="block mb-2 text-sm font-bold text-slate-800"
-									for="username">
+									htmlFor="username">
 									Username
 								</label>
 								<input
@@ -23,13 +36,14 @@ export default function login() {
 									type="text"
 									id="username"
 									name="username"
+									ref={emailRef}
 									required
 								/>
 							</div>
 							<div className="mb-4">
 								<label
 									className="block mb-2 text-sm font-bold text-slate-800"
-									for="password">
+									htmlFor="password">
 									Password
 								</label>
 								<input
@@ -37,6 +51,7 @@ export default function login() {
 									type="password"
 									id="password"
 									name="password"
+									ref={passwordRef}
 									required
 								/>
 							</div>

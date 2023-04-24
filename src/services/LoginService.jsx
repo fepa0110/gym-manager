@@ -11,4 +11,10 @@ export async function loginWithEmail(email,password){
       })
 }
 
-// let { data, error } = 
+export async function getLoggedUser(){
+  return await supabase.auth.getUser();
+}
+
+export async function logOut(){
+  return await supabase.auth.signOut();
+}
