@@ -3,9 +3,21 @@ import { Cliente } from "@/types/Cliente";
 import { createClient } from "@/utils/supabase/server";
 import { Temporal } from "temporal-polyfill";
 
+import { redirect } from "next/navigation";
+
 export default async function Page() {
-  const clientes = await getClientes()
-  
+	const supabase = await createClient();
+
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+
+	if (!user) {
+		return redirect("/sign-in");
+	}
+
+	const clientes = await getClientes();
+
 	return (
 		<>
 			<h1 className="text-2xl text-primary">Clientes</h1>

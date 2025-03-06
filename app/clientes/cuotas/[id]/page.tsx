@@ -1,10 +1,22 @@
 import { getCuotasByCliente } from "@/service/supabase/Cuotas";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 export default async function Page({
 	params,
 }: {
 	params: Promise<{ id: string }>;
 }) {
+	const supabase = await createClient();
+
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+
+	if (!user) {
+		return redirect("/sign-in");
+	}
+
 	const { id } = await params;
 	const cuotasCliente = await getCuotasByCliente(id);
 
