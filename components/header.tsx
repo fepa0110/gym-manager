@@ -15,9 +15,9 @@ export default function Header() {
 						
 					</div>
 				</div>
-                <div className="flex flex-row gap-2">
-                    <ThemeSwitcher />
+                <div className="flex flex-row gap-2 items-center">
                     {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />}
+                    <ThemeSwitcher />
                 </div>
 			</div>
 			<div className="w-full p-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />

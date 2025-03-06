@@ -1,15 +1,16 @@
+import { getClientes } from "@/service/supabase/Clientes";
 import { Cliente } from "@/types/Cliente";
 import { createClient } from "@/utils/supabase/server";
+import { Temporal } from "temporal-polyfill";
 
 export default async function Page() {
-	const supabase = await createClient();
-	const { data: clientes } = await supabase.from("clientes").select("*");
-
+  const clientes = await getClientes()
+  
 	return (
 		<>
 			<h1 className="text-2xl text-primary">Clientes</h1>
-			<div className="overflow-x-auto rounded-lg border border-gray-200">
-				<table className="min-w-full divide-y-2 divide-gray-200 bg-background text-sm">
+			<div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-400">
+				<table className="min-w-full divide-y-2 divide-gray-200 dark:divide-gray-400 bg-background text-sm">
 					<thead className="ltr:text-left rtl:text-right">
 						<tr>
 							<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
@@ -30,7 +31,7 @@ export default async function Page() {
 					<tbody className="divide-y divide-gray-200">
 						{clientes?.map((cliente) => {
 							return (
-								<tr>
+								<tr key={`clientrow${cliente.id}`}>
 									<td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 dark:text-slate-100">
 										{cliente.nombre}
 									</td>
