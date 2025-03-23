@@ -2,8 +2,11 @@ import { getClientes } from "@/service/supabase/Clientes";
 import { Cliente } from "@/types/Cliente";
 import { createClient } from "@/utils/supabase/server";
 import { Temporal } from "temporal-polyfill";
+import { faEye, faLaptop, faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function Page() {
 	const supabase = await createClient();
@@ -37,6 +40,9 @@ export default async function Page() {
 							<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
 								Fecha de alta
 							</th>
+							<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
+								
+							</th>
 						</tr>
 					</thead>
 
@@ -55,6 +61,11 @@ export default async function Page() {
 									</td>
 									<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
 										{cliente.fecha_creacion}
+									</td>
+									<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
+										<Link href={`/clientes/${cliente.id}`}>
+											<FontAwesomeIcon icon={faEye} className="text-primary"/>
+										</Link>
 									</td>
 								</tr>
 							);
