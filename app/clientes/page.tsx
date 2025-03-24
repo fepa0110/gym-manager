@@ -41,7 +41,7 @@ export default async function Page() {
 								Fecha de alta
 							</th>
 							<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
-								
+								Acciones
 							</th>
 						</tr>
 					</thead>
@@ -49,7 +49,7 @@ export default async function Page() {
 					<tbody className="divide-y divide-gray-200">
 						{clientes?.map((cliente) => {
 							return (
-								<tr key={`clientrow${cliente.id}`}>
+								<tr key={`clientrow${cliente.id}`} className="text-center">
 									<td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 dark:text-slate-100">
 										{cliente.nombre}
 									</td>
@@ -64,7 +64,7 @@ export default async function Page() {
 									</td>
 									<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
 										<Link href={`/clientes/${cliente.id}`}>
-											<FontAwesomeIcon icon={faEye} className="text-primary"/>
+											<FontAwesomeIcon icon={faEye} className="text-primary hover:scale-105"/>
 										</Link>
 									</td>
 								</tr>
