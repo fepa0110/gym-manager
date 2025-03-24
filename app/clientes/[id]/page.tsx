@@ -63,7 +63,7 @@ export default async function Page({
 									{cuota.abonada ? <span className="text-emerald-600 uppercase">Paga</span> : <span className="text-red-600 uppercase">Impaga</span>}
 								</td>
 								<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-									{!cuota.abonada && <button className="px-3 py-2 text-cyan-600 uppercase border-2 border-sky-600 rounded-md hover:scale-105 transition-all">Abonar</button>}
+									{!cuota.abonada && <button className="px-3 py-2 text-sky-600 uppercase border-2 border-sky-600 rounded-md hover:scale-105 transition-all">Abonar</button>}
 								</td>
 							</tr>
 						);

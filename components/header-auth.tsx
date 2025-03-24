@@ -12,7 +12,11 @@ export default async function AuthButton() {
 
   return user ? (
     <div className="flex items-center gap-4">
-      Hola, {user.email}!
+      <button className="flex flex-row px-3 py-2 rounded-lg border-2 border-primary/75 text-primary hover:scale-105 transition-all">
+        <Link href="/dashboard">
+          Dashboard
+        </Link>
+      </button>
       <form action={signOutAction}>
         <Button type="submit" variant={"outline"}>
           Salir
