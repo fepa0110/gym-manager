@@ -3,5 +3,6 @@ export interface Cliente{
     fecha_creacion: Date
     nombre: string
     apellido: string
-    dni: string
+    dni: string,
+    genero?: string
 }

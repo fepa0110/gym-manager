@@ -10,3 +10,15 @@ export async function getCuotasByCliente(clienteId: string) {
 
 	return cuotas;
 }
+
+
+/* export async function abonarCuota(id: number) {
+	const supabase = await createClient();
+
+	let { data: cliente } = await supabase
+		.from("clientes")
+		.select("*")
+		.eq("id", id);
+
+	return cliente;
+} */
