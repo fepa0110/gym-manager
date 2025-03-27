@@ -22,12 +22,14 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "temporal-polyfill": "^0.2.5",
+    "toastify-js": "^1.12.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/node": "22.10.2",
     "@types/react": "^19.0.2",
     "@types/react-dom": "19.0.2",
+    "@types/toastify-js": "^1.12.3",
     "postcss": "8.4.49",
     "tailwind-merge": "^2.5.2",
     "tailwindcss": "3.4.17",

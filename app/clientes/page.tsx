@@ -86,9 +86,11 @@ export default async function Page() {
 		<>
 			<div className="flex flex-row w-full justify-between items-center">
 				<h1 className="text-2xl text-primary">Clientes</h1>
-				<Button variant="default" size="sm">
-					<Link href="/clientes/new">Nuevo</Link>
-				</Button>
+				<Link href="/clientes/new">
+					<Button variant="default" size="sm">
+						Nuevo
+					</Button>
+				</Link>
 			</div>
 			<div className="overflow-x-auto rounded-lg borderborder-gray-200 dark:border-gray-400">
 				<ClientesList />

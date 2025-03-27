@@ -3,31 +3,39 @@
 import { SubmitButton } from "@/components/submit-button";
 import { useActionState } from "react";
 import { createCliente } from "./actions";
-import { Alert } from "@/components/ui/alert";
-
-const initialState = {
-	message: "",
-};
+import Toastify from 'toastify-js'
 
 export default function Page() {
-	const [state, formAction] = useActionState(createCliente, initialState);
+	const initialState = {
+		message: "",
+		sended: false
+	};
 
-	function showAlert() {
-		setTimeout(() => {
-			state.message = "";
-		}, 1000);
+	const [state, formAction, isPending] = useActionState(createCliente, initialState);
 
-		return <Alert message={state?.message} />;
+	const showAlert = () => {
+		Toastify({
+			text: state?.message,
+			duration: 3000,
+			newWindow: true,
+			close: true,
+			gravity: "top", // `top` or `bottom`
+			position: "right", // `left`, `center` or `right`
+			stopOnFocus: true,			
+			style: {
+			  background: "hsl(var(--primary))",
+			  color: "white",
+
+			}
+		  }).showToast();
 	}
 
 	return (
 		<>
+			{ state?.sended ? showAlert() : null }
+
 			<div className="flex flex-row w-full justify-between items-center">
 				<h1 className="text-2xl text-primary">Nuevo cliente</h1>
-			</div>
-
-			<div className="absolute top-0 right-0 pr-3 pt-3">
-				{state?.message != "" ? showAlert() : null}
 			</div>
 
 			<form

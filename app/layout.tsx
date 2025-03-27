@@ -6,6 +6,8 @@ import { Kumbh_Sans } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import "./globals.css";
+import "toastify-js/src/toastify.css"
+
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 

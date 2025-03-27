@@ -7,6 +7,7 @@ import { z } from "zod";
 export async function createCliente(
 	prevState: {
 		message: string;
+		sended: boolean;
 	},
 	formData: FormData
 ) {
@@ -23,14 +24,15 @@ export async function createCliente(
 	});
 
 	if (!validateData.success) {
-		return { message: "No se pudo crear el cliente" };
+		return { message: "No se pudo crear el cliente", sended: true };
 	}
 
 	const clienteData: Omit<Cliente, "id" | "fecha_creacion"> =
 		validateData.data;
 
 	if (await insertCliente(clienteData)) {
-		return { message: "Cliente creado correctamente." };
+		return { message: "Cliente creado correctamente.", sended: true };
+	} else {
+		return { message: "No se pudo crear el cliente", sended: true };
 	}
-    else return { message: "No se pudo crear el cliente" };
 }
