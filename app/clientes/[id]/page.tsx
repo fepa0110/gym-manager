@@ -5,9 +5,6 @@ import { getCuotasByCliente } from "@/service/supabase/Cuotas";
 
 import { createClient } from "@/utils/supabase/server";
 
-import { Cliente } from "@/types";
-
-
 export default async function Page({
 	params,
 }: {
@@ -25,7 +22,7 @@ export default async function Page({
 		return redirect("/sign-in");
 	}
 
-	const clienteData: Cliente = await getClienteById(Number(id));
+	const clienteData = await getClienteById(Number(id));
 
 	const cuotasCliente = await getCuotasByCliente(id);
 
@@ -60,10 +57,22 @@ export default async function Page({
 									{cuota.precio}
 								</td>
 								<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-									{cuota.abonada ? <span className="text-emerald-600 uppercase">Paga</span> : <span className="text-red-600 uppercase">Impaga</span>}
+									{cuota.abonada ? (
+										<span className="text-emerald-600 uppercase">
+											Paga
+										</span>
+									) : (
+										<span className="text-red-600 uppercase">
+											Impaga
+										</span>
+									)}
 								</td>
 								<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-									{!cuota.abonada && <button className="px-3 py-2 text-sky-600 uppercase border-2 border-sky-600 rounded-md hover:scale-105 transition-all">Abonar</button>}
+									{!cuota.abonada && (
+										<button className="px-3 py-2 text-sky-600 uppercase border-2 border-sky-600 rounded-md hover:scale-105 transition-all">
+											Abonar
+										</button>
+									)}
 								</td>
 							</tr>
 						);
@@ -75,13 +84,21 @@ export default async function Page({
 
 	return (
 		<>
-			<h1 className="text-2xl text-primary text-bold">{`Cliente ${clienteData[0].nombre} ${clienteData[0].apellido}`} </h1>
-			<p>{"Nombre: " + clienteData[0].nombre}</p>
-			<p>{"Apellido: " + clienteData[0].apellido}</p>
-			<p>{"DNI: " + clienteData[0].dni}</p>
+			{clienteData != null ? (
+				<>
+					<h1 className="text-2xl text-primary text-bold">
+						{`Cliente ${clienteData[0].nombre} ${clienteData[0].apellido}`}{" "}
+					</h1>
+					<p>{"Nombre: " + clienteData[0].nombre}</p>
+					<p>{"Apellido: " + clienteData[0].apellido}</p>
+					<p>{"DNI: " + clienteData[0].dni}</p>
 
-			<h2 className="text-xl text-primary text-bold">Cuotas</h2>
-			<CuotasTable />
+					<h2 className="text-xl text-primary text-bold">Cuotas</h2>
+					<CuotasTable />
+				</>
+			) : (
+				<h1 className="text-lg text-red-600">Cliente NO existe</h1>
+			)}
 		</>
 	);
 }
