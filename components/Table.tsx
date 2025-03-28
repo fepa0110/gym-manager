@@ -1,4 +1,4 @@
-interface TableProps {
+/* interface TableProps {
 	// rows: typeof Column
 }
 
@@ -76,3 +76,4 @@ export const Table = {
 	Column: Column,
 	Row: Row,
 };
+ */
