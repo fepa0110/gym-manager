@@ -28,9 +28,9 @@ export default async function AuthButton() {
       <Button asChild size="sm" variant={"outline"}>
         <Link href="/sign-in">Ingresar</Link>
       </Button>
-      <Button asChild size="sm" variant={"default"}>
+      {/* <Button asChild size="sm" variant={"default"}>
         <Link href="/sign-up">Registrarse</Link>
-      </Button>
+      </Button> */}
     </div>
   );
 }
