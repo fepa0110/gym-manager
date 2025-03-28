@@ -1,17 +1,25 @@
 "use client";
 
 import { SubmitButton } from "@/components/submit-button";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { createCliente } from "./actions";
-import Toastify from 'toastify-js'
+import Toastify from "toastify-js";
 
 export default function Page() {
 	const initialState = {
 		message: "",
-		sended: false
+		sended: false,
 	};
 
-	const [state, formAction, isPending] = useActionState(createCliente, initialState);
+	const [state, formAction, isPending] = useActionState(
+		createCliente,
+		initialState
+	);
+
+	useEffect(() => {
+		if(state?.sended) showAlert()
+	}, [state?.sended])
+	
 
 	const showAlert = () => {
 		Toastify({
@@ -21,19 +29,16 @@ export default function Page() {
 			close: true,
 			gravity: "top", // `top` or `bottom`
 			position: "right", // `left`, `center` or `right`
-			stopOnFocus: true,			
+			stopOnFocus: true,
 			style: {
-			  background: "hsl(var(--primary))",
-			  color: "white",
-
-			}
-		  }).showToast();
-	}
+				background: "hsl(var(--primary))",
+				color: "white",
+			},
+		}).showToast();
+	};
 
 	return (
-		<>
-			{ state?.sended ? showAlert() : null }
-
+		<div>
 			<div className="flex flex-row w-full justify-between items-center">
 				<h1 className="text-2xl text-primary">Nuevo cliente</h1>
 			</div>
@@ -73,15 +78,11 @@ export default function Page() {
 						required
 					/>
 				</div>
-
-				<p aria-live="polite" className="" role="status">
-					{"Mensaje: " + state?.message}
-				</p>
-
+				
 				<SubmitButton className="w-1/4 mt-3 place-self-center">
 					<span>Enviar</span>
 				</SubmitButton>
 			</form>
-		</>
+		</div>
 	);
 }
