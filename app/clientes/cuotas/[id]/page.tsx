@@ -48,7 +48,8 @@ export default async function Page({
 										{cuota.fecha_creacion}
 									</td>
 									<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-										{cuota.precio}
+										{/*{cuota.precio}*/}
+										
 									</td>
 									<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
 										{cuota.abonada.toString()}
