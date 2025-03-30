@@ -5,20 +5,29 @@ export async function getCuotasByCliente(clienteId: string) {
 
 	let { data: cuotas, error } = await supabase
 		.from("cuotas")
-		.select("*")
-		.eq("cliente_id", clienteId);
+		.select(
+			`
+			id,
+			fecha_creacion,
+			abonada,
+			tipo_cuota (
+				precio
+			)`
+		)
+		.eq("cliente_id", clienteId)
+		.order("fecha_creacion", { ascending: false });
 
 	return cuotas;
 }
 
-
-/* export async function abonarCuota(id: number) {
+export async function abonarCuota(cuotaId: number) {
 	const supabase = await createClient();
 
-	let { data: cliente } = await supabase
-		.from("clientes")
-		.select("*")
-		.eq("id", id);
+	const { data: cuotaEditada, error } = await supabase
+		.from("cuotas")
+		.update({ abonada: true })
+		.eq("id", cuotaId)
+		.select();
 
-	return cliente;
-} */
+	return cuotaEditada;
+}

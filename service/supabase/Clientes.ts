@@ -10,9 +10,19 @@ export async function getClientes() {
 
 export async function getClienteById(id: number) {
 	const supabase = await createClient();
-	let { data: cliente } = await supabase
+
+		let { data: cliente, error } = await supabase
 		.from("clientes")
-		.select("*")
+		.select(
+			`
+			id,
+			nombre,
+			apellido,
+			dni,
+			tipo_cuota_actual (
+				nombre
+			)`
+		)
 		.eq("id", id);
 
 	return cliente;
