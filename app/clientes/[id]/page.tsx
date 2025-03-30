@@ -79,7 +79,8 @@ export default async function Page({
 									{cuota.fecha_creacion}
 								</td>
 								<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-									{`$${cuota.tipo_cuota.precio}`}
+									{/* {`$${cuota.tipo_cuota.precio}`} */}
+									{`$30000`}
 								</td>
 								<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
 									{cuota.abonada ? (
