@@ -1,9 +1,16 @@
+// "use client";
+
 import { redirect } from "next/navigation";
 
-import { getClienteById } from "@/service/supabase/Clientes";
-import { getCuotasByCliente } from "@/service/supabase/Cuotas";
-
 import { createClient } from "@/utils/supabase/server";
+
+import { getClienteById } from "@/service/supabase/Clientes";
+import { abonarCuota, getCuotasByCliente } from "@/service/supabase/Cuotas";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default async function Page({
 	params,
@@ -22,11 +29,29 @@ export default async function Page({
 		return redirect("/sign-in");
 	}
 
-	const clienteData = await getClienteById(Number(id));
+	// const [cliente, setCliente] = useState<any[] | null>(null);
+	// const [cuotasCliente, setCuotasCliente] = useState<any[] | null>(null);
 
-	const cuotasCliente = await getCuotasByCliente(id);
+	/* useEffect(() => {
+		const getData = async () => {
+			setCliente(await getClienteById(Number(id)));
+			setCuotasCliente(await getCuotasByCliente(id));
+		};
+
+		getData()
+	}, []); */
+
+	const cliente = await getClienteById(Number(id))
+	const cuotasCliente = await getCuotasByCliente(id)
+
+
+	async function enviarAbonarCuota(cuotaId: number) {
+		await abonarCuota(cuotaId);
+	}
 
 	const CuotasTable = () => {
+		"use client";
+
 		return (
 			<table className="min-w-full divide-y-2 divide-gray-200 dark:divide-gray-400 bg-background text-sm">
 				<thead className="ltr:text-left rtl:text-right">
@@ -54,7 +79,7 @@ export default async function Page({
 									{cuota.fecha_creacion}
 								</td>
 								<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-									{cuota.precio}
+									{`$${cuota.tipo_cuota.precio}`}
 								</td>
 								<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
 									{cuota.abonada ? (
@@ -69,7 +94,9 @@ export default async function Page({
 								</td>
 								<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
 									{!cuota.abonada && (
-										<button className="px-3 py-2 text-sky-600 uppercase border-2 border-sky-600 rounded-md hover:scale-105 transition-all">
+										<button
+											// onClick={() => enviarAbonarCuota(cuota.id)}
+											className="px-3 py-2 text-sky-600 uppercase border-2 border-sky-600 rounded-md hover:scale-105 transition-all">
 											Abonar
 										</button>
 									)}
@@ -84,14 +111,24 @@ export default async function Page({
 
 	return (
 		<>
-			{clienteData != null ? (
+			<div className="w-full">
+				<Link
+					href="/clientes"
+					className="flex flex-row w-28 px-3 py-2 justify-between items-center border border-zinc-700 rounded-lg text-zinc-700 dark:text-zinc-100 hover:scale-105">
+					<FontAwesomeIcon icon={faArrowLeft} size="lg" />
+					Clientes
+				</Link>
+			</div>
+
+			{cliente != null ? (
 				<>
 					<h1 className="text-2xl text-primary text-bold">
-						{`Cliente ${clienteData[0].nombre} ${clienteData[0].apellido}`}{" "}
+						{`Cliente ${cliente[0].nombre} ${cliente[0].apellido}`}{" "}
 					</h1>
-					<p>{"Nombre: " + clienteData[0].nombre}</p>
-					<p>{"Apellido: " + clienteData[0].apellido}</p>
-					<p>{"DNI: " + clienteData[0].dni}</p>
+					<p>{"Nombre: " + cliente[0].nombre}</p>
+					<p>{"Apellido: " + cliente[0].apellido}</p>
+					<p>{"DNI: " + cliente[0].dni}</p>
+					<p>{"Tipo de cuota actual: " + cliente[0].tipo_cuota_actual.nombre}</p>
 
 					<h2 className="text-xl text-primary text-bold">Cuotas</h2>
 					<CuotasTable />
