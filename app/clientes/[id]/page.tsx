@@ -129,8 +129,7 @@ export default async function Page({
 					<p>{"Nombre: " + cliente[0].nombre}</p>
 					<p>{"Apellido: " + cliente[0].apellido}</p>
 					<p>{"DNI: " + cliente[0].dni}</p>
-					<p>{"Tipo de cuota actual: " + cliente[0].tipo_cuota_actual.nombre}</p>
-
+					<p>{"Tipo de cuota actual: " + "Cuota básica"}</p>
 					<h2 className="text-xl text-primary text-bold">Cuotas</h2>
 					<CuotasTable />
 				</>
