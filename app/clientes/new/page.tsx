@@ -4,6 +4,9 @@ import { SubmitButton } from "@/components/submit-button";
 import { useActionState, useEffect } from "react";
 import { createCliente } from "./actions";
 import Toastify from "toastify-js";
+import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 export default function Page() {
 	const initialState = {
@@ -17,9 +20,8 @@ export default function Page() {
 	);
 
 	useEffect(() => {
-		if(state?.sended) showAlert()
-	}, [state?.sended])
-	
+		if (state?.sended) showAlert();
+	}, [state?.sended]);
 
 	const showAlert = () => {
 		Toastify({
@@ -38,7 +40,16 @@ export default function Page() {
 	};
 
 	return (
-		<div>
+		<>
+			<div className="w-full mb-3">
+				<Link
+					href="/clientes"
+					className="flex flex-row w-28 px-3 py-2 justify-between items-center border border-zinc-700 rounded-lg text-zinc-700 dark:text-zinc-100 hover:scale-105">
+					<FontAwesomeIcon icon={faArrowLeft} size="lg" />
+					Clientes
+				</Link>
+			</div>
+
 			<div className="flex flex-row w-full justify-between items-center">
 				<h1 className="text-2xl text-primary">Nuevo cliente</h1>
 			</div>
@@ -78,11 +89,11 @@ export default function Page() {
 						required
 					/>
 				</div>
-				
+
 				<SubmitButton className="w-1/4 mt-3 place-self-center">
 					<span>Enviar</span>
 				</SubmitButton>
 			</form>
-		</div>
+		</>
 	);
 }
