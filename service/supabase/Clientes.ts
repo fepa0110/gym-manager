@@ -11,7 +11,7 @@ export async function getClientes() {
 export async function getClienteById(id: number) {
 	const supabase = await createClient();
 
-		let { data: cliente, error } = await supabase
+	let { data: cliente, error } = await supabase
 		.from("clientes")
 		.select(
 			`
@@ -38,7 +38,10 @@ export async function insertCliente(
 		.insert(cliente)
 		.select();
 
-	if(error) return false
-	
-	return true
+	if (error) {
+		console.error(error);
+		return false;
+	}
+
+	return true;
 }

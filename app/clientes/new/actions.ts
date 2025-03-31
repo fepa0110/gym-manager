@@ -15,12 +15,14 @@ export async function createCliente(
 		nombre: z.string().min(1).max(25),
 		apellido: z.string().min(1).max(25),
 		dni: z.string().min(8).max(10),
+		tipo_cuota_actual: z.string()
 	});
 
 	const validateData = clienteSchema.safeParse({
 		nombre: formData.get("nombre"),
 		apellido: formData.get("apellido"),
 		dni: formData.get("dni"),
+		tipo_cuota_actual: formData.get("tipo_cuota_actual")
 	});
 
 	if (!validateData.success) {
