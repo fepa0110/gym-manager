@@ -1,12 +1,19 @@
 "use client";
 
-import { SubmitButton } from "@/components/submit-button";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
+import { createClient } from '@/utils/supabase/client'
 import { createCliente } from "./actions";
-import Toastify from "toastify-js";
+
 import Link from "next/link";
+import { SubmitButton } from "@/components/submit-button";
+
+import Toastify from "toastify-js";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { getAllTipoCuotas } from "@/service/supabase/client/TipoCuotas";
+
+// import { getAllTipoCuotas } from "@/service/supabase/TipoCuotas";
 
 export default function Page() {
 	const initialState = {
@@ -19,9 +26,20 @@ export default function Page() {
 		initialState
 	);
 
+	const [tiposCuotas, setTiposCuotas] = useState<any[] | null>([]);
+
+	useEffect(() => {
+		getData();
+	},[]);
+
 	useEffect(() => {
 		if (state?.sended) showAlert();
 	}, [state?.sended]);
+
+	const getData = async () => {
+		const data = await getAllTipoCuotas()
+		setTiposCuotas(data);
+	};
 
 	const showAlert = () => {
 		Toastify({
@@ -55,39 +73,75 @@ export default function Page() {
 			</div>
 
 			<form
-				className="flex flex-col p-3 gap-3 rounded-lg border border-zinc-800 dark:border-zinc-400"
+				className="flex flex-col justify-center p-3 gap-3 rounded-lg border border-zinc-800 dark:border-zinc-400"
 				action={formAction}>
-				<div className="flex flex-col w-1/4 gap-2">
-					<label htmlFor="nombre">Nombre</label>
-					<input
-						className="py-2 px-2 border border-zinc-600 rounded-md focus:border-primary focus:outline focus:outline-primary"
-						type="text"
-						id="nombre"
-						name="nombre"
-						required
-					/>
-				</div>
+				<section className="flex flex-col md:flex-row w-full md:justify-start items-center gap-6">
+					<div className="flex flex-col md:w-1/4 gap-2">
+						<label
+							htmlFor="nombre"
+							className="text-zinc-700 dark:text-zinc-100">
+							Nombre
+						</label>
+						<input
+							className="py-2 px-2 border border-zinc-600 bg-background rounded-md focus:border-primary focus:outline focus:outline-primary"
+							type="text"
+							id="nombre"
+							name="nombre"
+							required
+						/>
+					</div>
 
-				<div className="flex flex-col w-1/4 gap-2">
-					<label htmlFor="apellido">Apellido</label>
-					<input
-						className="py-2 px-2 border border-zinc-600 rounded-md focus:border-primary focus:outline focus:outline-primary"
-						type="text"
-						id="apellido"
-						name="apellido"
-						required
-					/>
-				</div>
+					<div className="flex flex-col md:w-1/4 gap-2">
+						<label
+							htmlFor="apellido"
+							className="text-zinc-700 dark:text-zinc-100">
+							Apellido
+						</label>
+						<input
+							className="py-2 px-2 border border-zinc-600 bg-background rounded-md focus:border-primary focus:outline focus:outline-primary"
+							type="text"
+							id="apellido"
+							name="apellido"
+							required
+						/>
+					</div>
+				</section>
 
-				<div className="flex flex-col w-1/4 gap-2">
-					<label htmlFor="dni">DNI</label>
+				<div className="flex flex-col self-center md:self-start justify-center items-center md:items-start w-3/5 md:w-full gap-2 pt-3">
+					<label
+						htmlFor="dni"
+						className="text-zinc-700 dark:text-zinc-100">
+						DNI
+					</label>
 					<input
-						className="py-2 px-2 border border-zinc-600  rounded-md focus:border-primary focus:outline focus:outline-primary"
+						className="py-2 px-2 border md:w-1/4 border-zinc-600 bg-background rounded-md focus:border-primary focus:outline focus:outline-primary"
 						type="text"
 						id="dni"
 						name="dni"
 						required
 					/>
+				</div>
+
+				<div className="flex flex-col self-center md:self-start justify-center items-center md:items-start w-3/5 md:w-full gap-2 pt-3">
+					<label htmlFor="tipo_cuota_actual">
+						<span className="text-sm font-medium text-zinc-700 dark:text-zinc-100">
+							Tipo de cuota
+						</span>
+					</label>
+					<select
+						name="tipo_cuota_actual"
+						id="tipo_cuota_actual"
+						className="py-2 px-2 border text-zinc-800 dark:text-zinc-100 md:w-1/4 border-zinc-600 bg-background rounded-md focus:border-primary focus:outline focus:outline-primary">
+						{tiposCuotas?.map((tipoCuota) => {
+							return (
+								<option
+									key={`tipoCuota${tipoCuota.id}`}
+									value={tipoCuota.id}>
+									{`${tipoCuota.nombre} - $${tipoCuota.precio}`}
+								</option>
+							);
+						})}
+					</select>
 				</div>
 
 				<SubmitButton className="w-1/4 mt-3 place-self-center">
