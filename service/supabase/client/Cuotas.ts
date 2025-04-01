@@ -1,5 +1,5 @@
 import { Cuota } from "@/types/Cuota";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/client";
 
 export async function getCuotasByCliente(clienteId: string) {
 	const supabase = await createClient();
@@ -12,7 +12,6 @@ export async function getCuotasByCliente(clienteId: string) {
 			fecha_creacion,
 			abonada,
 			tipo_cuota (
-				nombre,
 				precio
 			)`
 		)
