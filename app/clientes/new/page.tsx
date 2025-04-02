@@ -53,6 +53,7 @@ export default function Page() {
 			style: {
 				background: "hsl(var(--primary))",
 				color: "white",
+				"box-shadow": "none" 
 			},
 		}).showToast();
 	};

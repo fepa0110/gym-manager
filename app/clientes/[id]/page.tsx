@@ -1,5 +1,3 @@
-// "use client";
-
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
@@ -7,11 +5,9 @@ import { createClient } from "@/utils/supabase/server";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Cliente } from "@/types/Cliente";
-import { getCuotasByCliente } from "@/service/supabase/Cuotas";
 
 import { getClienteById } from "@/service/supabase/Clientes";
+import { CuotasTable } from "./actions";
 
 export default async function Page({
 	params,
@@ -31,7 +27,7 @@ export default async function Page({
 	}
 
 	const cliente: any[] | null = await getClienteById(Number(id));
-	const cuotasCliente: any[] | null = await getCuotasByCliente(id);
+	// const cuotasCliente: any[] | null = await getCuotasByCliente(id);
 
 	const ClientePersonalData = () => {
 		return (
@@ -81,71 +77,7 @@ export default async function Page({
 		);
 	};
 
-	const CuotasTable = () => {
-		"use client";
-
-		return (
-			<table className="min-w-full divide-y-2 divide-gray-200 dark:divide-gray-400 bg-background text-sm">
-				<thead className="ltr:text-left rtl:text-right">
-					<tr>
-						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
-							Fecha
-						</th>
-						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
-							Tipo de cuota
-						</th>
-						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
-							Valor
-						</th>
-						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
-							Abonada
-						</th>
-						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
-							Acciones
-						</th>
-					</tr>
-				</thead>
-
-				<tbody className="divide-y divide-gray-200">
-					{cuotasCliente?.map((cuota) => {
-						return (
-							<tr key={`clientrow${cuota.id}`} className="text-center">
-								<td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 dark:text-slate-100">
-									{cuota.fecha_creacion}
-								</td>
-								<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-									{`${cuota.tipo_cuota.nombre}`}
-								</td>
-								<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-									{`$${cuota.tipo_cuota.precio}`}
-								</td>
-								<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-									{cuota.abonada ? (
-										<span className="text-emerald-600 uppercase">
-											Paga
-										</span>
-									) : (
-										<span className="text-red-600 uppercase">
-											Impaga
-										</span>
-									)}
-								</td>
-								<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-									{!cuota.abonada && (
-										<button
-											// onClick={() => enviarAbonarCuota(cuota.id)}
-											className="px-3 py-2 text-sky-600 uppercase border-2 border-sky-600 rounded-md hover:scale-105 transition-all">
-											Abonar
-										</button>
-									)}
-								</td>
-							</tr>
-						);
-					})}
-				</tbody>
-			</table>
-		);
-	};
+	
 
 	return (
 		<>
@@ -166,7 +98,8 @@ export default async function Page({
 					<ClientePersonalData />
 
 					<h2 className="text-xl text-primary text-bold">Cuotas</h2>
-					<CuotasTable />
+
+					<CuotasTable clienteId={id} />
 				</>
 			) : (
 				<h1 className="text-lg text-red-600">Cliente NO existe</h1>

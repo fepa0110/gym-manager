@@ -12,6 +12,7 @@ export async function getCuotasByCliente(clienteId: string) {
 			fecha_creacion,
 			abonada,
 			tipo_cuota (
+				nombre,
 				precio
 			)`
 		)
@@ -21,12 +22,12 @@ export async function getCuotasByCliente(clienteId: string) {
 	return cuotas;
 }
 
-export async function abonarCuota(cuotaId: number) {
+export async function abonarCuota(cuotaId: string) {
 	const supabase = await createClient();
 
 	const { data: cuotaEditada, error } = await supabase
 		.from("cuotas")
-		.update({ abonada: true })
+		.update({ abonada: "true" })
 		.eq("id", cuotaId)
 		.select();
 
