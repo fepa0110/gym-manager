@@ -87,14 +87,18 @@ export default function Page() {
 			</div>
 
 			<form
-				className="flex flex-col justify-center p-3 gap-3 rounded-lg border border-zinc-800 dark:border-zinc-400"
+				className="flex flex-col justify-center items-center py-6 gap-3 rounded-lg border border-zinc-800 dark:border-zinc-400"
 				action={formAction}>
-				<section className="flex flex-col md:flex-row w-full md:justify-start items-center gap-6">
-					<div className="flex flex-col md:w-1/4 gap-2">
+				<fieldset
+					title="Datos personales"
+					className="grid grid-cols-1 md:grid-cols-2 w-3/4 justify-center md:justify-start items-center gap-6">
+					<legend className="w-full text-primary dark:text-primary/75 text-base mb-2 border-b border-primary/75">Datos Personales</legend>
+
+					<div className="flex flex-col md:w-full gap-2">
 						<label
 							htmlFor="nombre"
 							className="text-zinc-700 dark:text-zinc-100">
-							Nombre
+							Nombre<span className="text-primary dark:text-primary/75 cursor-none"> *</span>
 						</label>
 						<input
 							className="py-2 px-2 border border-zinc-600 bg-background rounded-md focus:border-primary focus:outline focus:outline-primary"
@@ -106,11 +110,11 @@ export default function Page() {
 						/>
 					</div>
 
-					<div className="flex flex-col md:w-1/4 gap-2">
+					<div className="flex flex-col md:w-full gap-2">
 						<label
 							htmlFor="apellido"
 							className="text-zinc-700 dark:text-zinc-100">
-							Apellido
+							Apellido<span className="text-primary dark:text-primary/75 cursor-none"> *</span>
 						</label>
 						<input
 							className="py-2 px-2 border border-zinc-600 bg-background rounded-md focus:border-primary focus:outline focus:outline-primary"
@@ -121,25 +125,43 @@ export default function Page() {
 							required
 						/>
 					</div>
-				</section>
 
-				<div className="flex flex-col self-center md:self-start justify-center items-center md:items-start w-3/5 md:w-full gap-2 pt-3">
-					<label
-						htmlFor="dni"
-						className="text-zinc-700 dark:text-zinc-100">
-						DNI
-					</label>
-					<input
-						className="py-2 px-2 border md:w-1/4 border-zinc-600 bg-background rounded-md focus:border-primary focus:outline focus:outline-primary"
-						type="text"
-						id="dni"
-						name="dni"
-						autoComplete="off"
-					/>
-				</div>
+					<div className="flex flex-col md:w-full gap-2">
+						<label
+							htmlFor="dni"
+							className="text-zinc-700 dark:text-zinc-100">
+							DNI
+						</label>
+						<input
+							className="py-2 px-2 border border-zinc-600 bg-background rounded-md focus:border-primary focus:outline focus:outline-primary"
+							type="text"
+							id="dni"
+							name="dni"
+							autoComplete="off"
+						/>
+					</div>
 
-				<section className="flex flex-col md:flex-row w-full md:justify-start items-center gap-6">
-					<div className="flex flex-col md:max-w-[256px] md:w-3/4 gap-2">
+					<div className="flex flex-col md:w-full gap-2">
+						<label
+							htmlFor="observaciones"
+							className="text-zinc-700 dark:text-zinc-100">
+							Observaciones
+						</label>
+						<input
+							className="py-2 px-2 border border-zinc-600 bg-background rounded-md focus:border-primary focus:outline focus:outline-primary"
+							type="text"
+							id="observaciones"
+							name="observaciones"
+							autoComplete="off"
+						/>
+					</div>
+				</fieldset>
+
+				<fieldset
+					title="Cuota"
+					className="grid grid-cols-1 md:grid-cols-2 w-3/4 mt-4 justify-center md:justify-start items-center gap-6">
+					<legend className="w-full text-primary dark:text-primary/75 text-base mb-2 border-b border-primary/75">Cuota</legend>
+					<div className="flex flex-col md:w-full gap-2">
 						<label htmlFor="tipo_cuota_actual">
 							<span className="text-sm font-medium text-zinc-700 dark:text-zinc-100">
 								Tipo de cuota
@@ -161,7 +183,7 @@ export default function Page() {
 						</select>
 					</div>
 
-					<div className="flex flex-col justify-center w-2/4 md:w-1/4 gap-2">
+					<div className="flex flex-col md:w-full gap-2">
 						<label htmlFor="fecha_creacion">
 							<span className="text-sm font-medium text-zinc-700 dark:text-zinc-100">
 								Fecha de inicio
@@ -181,9 +203,9 @@ export default function Page() {
 							radius="sm"
 						/>
 					</div>
-				</section>
+				</fieldset>
 
-				<SubmitButton className="w-1/4 mt-3 place-self-center">
+				<SubmitButton className="w-1/4 md:mt-6 place-self-center">
 					<span>Enviar</span>
 				</SubmitButton>
 			</form>
