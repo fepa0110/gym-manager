@@ -65,6 +65,16 @@ export default async function Page({
 
 					<div className="grid grid-cols-1 py-3 sm:grid-cols-3 sm:gap-4">
 						<dt className="font-medium text-zinc-900 dark:text-zinc-400">
+							Observaciones
+						</dt>
+
+						<dd className="text-zinc-700 dark:text-zinc-200 sm:col-span-2">
+							{cliente!![0].observaciones || "-"}
+						</dd>
+					</div>
+
+					<div className="grid grid-cols-1 py-3 sm:grid-cols-3 sm:gap-4">
+						<dt className="font-medium text-zinc-900 dark:text-zinc-400">
 							Tipo de cuota actual
 						</dt>
 
