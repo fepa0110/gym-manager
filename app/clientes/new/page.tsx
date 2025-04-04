@@ -1,17 +1,28 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
-import { createClient } from '@/utils/supabase/client'
+import { createClient } from "@/utils/supabase/client";
 import { createCliente } from "./actions";
 
 import Link from "next/link";
 import { SubmitButton } from "@/components/submit-button";
 
 import Toastify from "toastify-js";
+import { DatePicker } from "@heroui/date-picker";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { getAllTipoCuotas } from "@/service/supabase/client/TipoCuotas";
+import { redirect } from "next/navigation";
+import { Temporal } from "temporal-polyfill";
+import {
+	CalendarDate,
+	getLocalTimeZone,
+	parseAbsoluteToLocal,
+	parseZonedDateTime,
+	today,
+	ZonedDateTime,
+} from "@internationalized/date";
 
 // import { getAllTipoCuotas } from "@/service/supabase/TipoCuotas";
 
@@ -26,18 +37,21 @@ export default function Page() {
 		initialState
 	);
 
+	const instant = Temporal.Now.instant();
+
 	const [tiposCuotas, setTiposCuotas] = useState<any[] | null>([]);
+	const [fechaCreacion, setFechaCreacion] = useState<CalendarDate | null>();
 
 	useEffect(() => {
 		getData();
-	},[]);
+	}, []);
 
 	useEffect(() => {
 		if (state?.sended) showAlert();
 	}, [state?.sended]);
 
 	const getData = async () => {
-		const data = await getAllTipoCuotas()
+		const data = await getAllTipoCuotas();
 		setTiposCuotas(data);
 	};
 
@@ -53,24 +67,23 @@ export default function Page() {
 			style: {
 				background: "hsl(var(--primary))",
 				color: "white",
-				"box-shadow": "none" 
+				"box-shadow": "none",
 			},
 		}).showToast();
 	};
 
 	return (
 		<>
-			<div className="w-full mb-3">
+			<div className="w-full flex flex-row gap-3 items-center">
 				<Link
 					href="/clientes"
 					className="flex flex-row w-28 px-3 py-2 justify-between items-center border border-zinc-700 rounded-lg text-zinc-700 dark:text-zinc-100 hover:scale-105">
 					<FontAwesomeIcon icon={faArrowLeft} size="lg" />
 					Clientes
 				</Link>
-			</div>
-
-			<div className="flex flex-row w-full justify-between items-center">
-				<h1 className="text-2xl text-primary">Nuevo cliente</h1>
+				<h1 className="text-2xl text-primary text-bold">
+					<span>Nuevo cliente</span>
+				</h1>
 			</div>
 
 			<form
@@ -88,6 +101,7 @@ export default function Page() {
 							type="text"
 							id="nombre"
 							name="nombre"
+							autoComplete="off"
 							required
 						/>
 					</div>
@@ -103,6 +117,7 @@ export default function Page() {
 							type="text"
 							id="apellido"
 							name="apellido"
+							autoComplete="off"
 							required
 						/>
 					</div>
@@ -119,31 +134,54 @@ export default function Page() {
 						type="text"
 						id="dni"
 						name="dni"
-						required
+						autoComplete="off"
 					/>
 				</div>
 
-				<div className="flex flex-col self-center md:self-start justify-center items-center md:items-start w-3/5 md:w-full gap-2 pt-3">
-					<label htmlFor="tipo_cuota_actual">
-						<span className="text-sm font-medium text-zinc-700 dark:text-zinc-100">
-							Tipo de cuota
-						</span>
-					</label>
-					<select
-						name="tipo_cuota_actual"
-						id="tipo_cuota_actual"
-						className="py-2 px-2 border text-zinc-800 dark:text-zinc-100 md:w-1/4 border-zinc-600 bg-background rounded-md focus:border-primary focus:outline focus:outline-primary">
-						{tiposCuotas?.map((tipoCuota) => {
-							return (
-								<option
-									key={`tipoCuota${tipoCuota.id}`}
-									value={tipoCuota.id}>
-									{`${tipoCuota.nombre} - $${tipoCuota.precio}`}
-								</option>
-							);
-						})}
-					</select>
-				</div>
+				<section className="flex flex-col md:flex-row w-full md:justify-start items-center gap-6">
+					<div className="flex flex-col md:max-w-[256px] md:w-3/4 gap-2">
+						<label htmlFor="tipo_cuota_actual">
+							<span className="text-sm font-medium text-zinc-700 dark:text-zinc-100">
+								Tipo de cuota
+							</span>
+						</label>
+						<select
+							name="tipo_cuota_actual"
+							id="tipo_cuota_actual"
+							className="py-2 px-2 text-sm md:text-base border text-zinc-800 dark:text-zinc-100 md:w-auto border-zinc-600 bg-background rounded-md focus:border-primary focus:outline focus:outline-primary">
+							{tiposCuotas?.map((tipoCuota) => {
+								return (
+									<option
+										key={`tipoCuota${tipoCuota.id}`}
+										value={tipoCuota.id}>
+										{`${tipoCuota.nombre} - $${tipoCuota.precio}`}
+									</option>
+								);
+							})}
+						</select>
+					</div>
+
+					<div className="flex flex-col justify-center w-2/4 md:w-1/4 gap-2">
+						<label htmlFor="fecha_creacion">
+							<span className="text-sm font-medium text-zinc-700 dark:text-zinc-100">
+								Fecha de inicio
+							</span>
+						</label>
+						<DatePicker
+							id="fecha_creacion"
+							name="fecha_creacion"
+							className="max-w-[300px]"
+							aria-label="Fecha de inicio"
+							granularity="day"
+							defaultValue={today(getLocalTimeZone())}
+							value={fechaCreacion}
+							onChange={setFechaCreacion}
+							showMonthAndYearPickers
+							variant="bordered"
+							radius="sm"
+						/>
+					</div>
+				</section>
 
 				<SubmitButton className="w-1/4 mt-3 place-self-center">
 					<span>Enviar</span>
