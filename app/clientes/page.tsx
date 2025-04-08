@@ -1,31 +1,59 @@
-import { getClientes } from "@/service/supabase/Clientes";
-import { Cliente } from "@/types/Cliente";
-import { createClient } from "@/utils/supabase/server";
-import { Temporal } from "temporal-polyfill";
-import {
-	faEye,
-	faLaptop,
-	faMoon,
-	faSun,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+"use client";
 
-import { redirect } from "next/navigation";
+import {
+	getClientes,
+	getClientesPage,
+	getTotalClientes,
+} from "@/service/supabase/client/Clientes";
+import { Cliente } from "@/types/Cliente";
+import { createClient } from "@/utils/supabase/client";
+import { Temporal } from "temporal-polyfill";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Pagination } from "@/components/ui/pagination";
+import { useEffect, useState } from "react";
 
-export default async function Page() {
-	const supabase = await createClient();
+export default function Page() {
+	const supabase = createClient();
+	const router = useRouter();
 
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
+	const user = supabase.auth.getUser();
 
 	if (!user) {
-		return redirect("/sign-in");
+		return router.replace("/login");
 	}
 
-	const clientes = await getClientes();
+	const pageSize = 8;
+	const [totalPages, setTotalPages] = useState<number>(1);
+	const [clientes, setClientes] = useState<Cliente[] | null>([]);
+	const [page, setPage] = useState<number>(1);
+
+	useEffect(() => {
+		getPaginationData();
+		getClientesData();
+	}, [page]);
+
+	const getPaginationData = async () => {
+		const totalClientes = await getTotalClientes();
+
+		if (totalClientes != null) {
+			setTotalPages(Math.ceil(totalClientes / pageSize));
+		}
+	};
+
+	const getClientesData = async () => {
+		const fromPageRange = (page-1)*pageSize
+		const toPageRange = (fromPageRange + pageSize)-1
+
+		console.log(`from ${fromPageRange} to ${toPageRange}`);
+
+		const data = await getClientesPage(fromPageRange, toPageRange);
+		setClientes(data);
+	};
 
 	const ClientesList = () => {
 		return (
@@ -42,7 +70,7 @@ export default async function Page() {
 							DNI
 						</th>
 						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
-							Fecha de alta
+							Observaciones
 						</th>
 						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
 							Acciones
@@ -51,7 +79,7 @@ export default async function Page() {
 				</thead>
 
 				<tbody className="divide-y divide-gray-200">
-					{clientes?.map((cliente) => {
+					{clientes?.map((cliente: Cliente) => {
 						return (
 							<tr key={`clientrow${cliente.id}`} className="text-center">
 								<td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 dark:text-slate-100">
@@ -64,7 +92,7 @@ export default async function Page() {
 									{cliente.dni}
 								</td>
 								<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-									{cliente.fecha_creacion}
+									{cliente.observaciones}
 								</td>
 								<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
 									<Link href={`/clientes/${cliente.id}`}>
@@ -92,9 +120,10 @@ export default async function Page() {
 					</Button>
 				</Link>
 			</div>
-			<div className="overflow-x-auto rounded-lg borderborder-gray-200 dark:border-gray-400">
+			<div className="rounded-lg borderborder-gray-200 dark:border-gray-400">
 				<ClientesList />
 			</div>
+			<Pagination currentPage={page} totalPages={totalPages} showMaxPages={totalPages} changePage={setPage}/>
 		</>
 	);
 }
