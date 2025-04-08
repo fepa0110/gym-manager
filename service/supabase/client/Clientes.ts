@@ -3,9 +3,32 @@ import { createClient } from "@/utils/supabase/client";
 
 export async function getClientes() {
 	const supabase = await createClient();
-	const { data: clientes } = await supabase.from("clientes").select("*");
+	const { data: clientes } = await supabase
+		.from("clientes")
+		.select("*")
+		.range(0, 7);
 
 	return clientes;
+}
+
+export async function getClientesPage(from: number, to: number) {
+	const supabase = createClient();
+	const { data: clientes } = await supabase
+		.from("clientes")
+		.select("*")
+		.range(from, to);
+
+	return clientes;
+}
+
+export async function getTotalClientes(){
+	const supabase = createClient();
+
+	const { count, error } = await supabase
+		.from("clientes")
+		.select('*', { count: 'exact', head: true })
+
+	return count;
 }
 
 export async function getClienteById(id: number) {

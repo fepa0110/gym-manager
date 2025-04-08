@@ -7,5 +7,6 @@ export interface Cliente{
     apellido: string
     dni: string
     tipo_cuota_actual: string;
+    observaciones?: string;
     // genero?: string
 }
