@@ -33,3 +33,14 @@ export async function abonarCuota(cuotaId: string) {
 
 	return cuotaEditada;
 }
+
+export async function getCuotasImpagas(){
+	const supabase = await createClient();
+
+	const { count, error } = await supabase
+		.from("cuotas")
+		.select('*', { count: 'exact', head: true })
+		.eq("abonada", "false")
+
+	return count;
+}
