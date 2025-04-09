@@ -1,6 +1,6 @@
 "use client";
 
-import { TableSkeleton } from "@/components/ui/table-skeleton";
+import { RowsSkeleton } from "@/components/ui/rows-skeleton";
 import {
 	abonarCuota,
 	getCuotasByCliente,
@@ -72,7 +72,7 @@ export const CuotasTable = (clienteId: { clienteId: string }) => {
 	};
 
 	return isLoading ? (
-		<TableSkeleton />
+		<RowsSkeleton />
 	) : (
 		<table className="min-w-full divide-y-2 divide-gray-200 dark:divide-gray-400 bg-background text-sm">
 			<thead className="ltr:text-left rtl:text-right">

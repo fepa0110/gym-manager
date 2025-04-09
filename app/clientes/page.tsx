@@ -16,6 +16,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Pagination } from "@/components/ui/pagination";
 import { useEffect, useState } from "react";
+import { TableSkeleton } from "@/components/ui/table-skeleton";
 
 export default function Page() {
 	const supabase = createClient();
@@ -31,6 +32,7 @@ export default function Page() {
 	const [totalPages, setTotalPages] = useState<number>(1);
 	const [clientes, setClientes] = useState<Cliente[] | null>([]);
 	const [page, setPage] = useState<number>(1);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	useEffect(() => {
 		getPaginationData();
@@ -38,21 +40,29 @@ export default function Page() {
 	}, [page]);
 
 	const getPaginationData = async () => {
+		setIsLoading(true);
+
 		const totalClientes = await getTotalClientes();
 
 		if (totalClientes != null) {
 			setTotalPages(Math.ceil(totalClientes / pageSize));
 		}
+
+		setIsLoading(false);
 	};
 
 	const getClientesData = async () => {
-		const fromPageRange = (page-1)*pageSize
-		const toPageRange = (fromPageRange + pageSize)-1
+		setIsLoading(true);
+
+		const fromPageRange = (page - 1) * pageSize;
+		const toPageRange = fromPageRange + pageSize - 1;
 
 		console.log(`from ${fromPageRange} to ${toPageRange}`);
 
 		const data = await getClientesPage(fromPageRange, toPageRange);
 		setClientes(data);
+
+		setIsLoading(false);
 	};
 
 	const ClientesList = () => {
@@ -78,34 +88,40 @@ export default function Page() {
 					</tr>
 				</thead>
 
-				<tbody className="divide-y divide-gray-200">
-					{clientes?.map((cliente: Cliente) => {
-						return (
-							<tr key={`clientrow${cliente.id}`} className="text-center">
-								<td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 dark:text-slate-100">
-									{cliente.nombre}
-								</td>
-								<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-									{cliente.apellido}
-								</td>
-								<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-									{cliente.dni}
-								</td>
-								<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-									{cliente.observaciones}
-								</td>
-								<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-									<Link href={`/clientes/${cliente.id}`}>
-										<FontAwesomeIcon
-											icon={faEye}
-											className="text-primary hover:scale-105"
-										/>
-									</Link>
-								</td>
-							</tr>
-						);
-					})}
-				</tbody>
+				{isLoading ? (
+					<TableSkeleton numRows={pageSize-1} numColumns={5} />
+				) : (
+					<tbody className="divide-y divide-gray-200">
+						{clientes?.map((cliente: Cliente) => {
+							return (
+								<tr
+									key={`clientrow${cliente.id}`}
+									className="text-center">
+									<td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 dark:text-slate-100">
+										{cliente.nombre}
+									</td>
+									<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
+										{cliente.apellido}
+									</td>
+									<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
+										{cliente.dni}
+									</td>
+									<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
+										{cliente.observaciones}
+									</td>
+									<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
+										<Link href={`/clientes/${cliente.id}`}>
+											<FontAwesomeIcon
+												icon={faEye}
+												className="text-primary hover:scale-105"
+											/>
+										</Link>
+									</td>
+								</tr>
+							);
+						})}
+					</tbody>
+				)}
 			</table>
 		);
 	};
@@ -123,7 +139,12 @@ export default function Page() {
 			<div className="rounded-lg borderborder-gray-200 dark:border-gray-400">
 				<ClientesList />
 			</div>
-			<Pagination currentPage={page} totalPages={totalPages} showMaxPages={totalPages} changePage={setPage}/>
+			<Pagination
+				currentPage={page}
+				totalPages={totalPages}
+				showMaxPages={totalPages}
+				changePage={setPage}
+			/>
 		</>
 	);
 }

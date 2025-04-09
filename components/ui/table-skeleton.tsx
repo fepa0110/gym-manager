@@ -1,52 +1,41 @@
-interface TableSkeletonProps{
-	cols: number;
-	rows: number;
+interface TableSkeletonProps {
+	numColumns: number;
+	numRows: number;
 }
 
-export const TableSkeleton = () => {
+export const TableSkeleton = ({ numColumns, numRows }: TableSkeletonProps) => {
+	let rows: string[] = [];
+
+	for (let index = 0; index <= numRows; index++) {
+		rows.push(`${index}`);
+	}
+
 	return (
-		<div
-			role="status"
-			className="max-w-full p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded-sm shadow-sm animate-pulse duration-750 dark:divide-gray-700 md:p-6 dark:border-gray-700">
-			<div className="flex items-center justify-between">
-				<div>
-					<div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-					<div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-				</div>
-				<div>
-					<div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-					<div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-				</div>
-				<div>
-					<div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-					<div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-				</div>
-				<div>
-					<div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-					<div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-				</div>
-				<div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
-			</div>
-			
-			<div className="flex items-center justify-between">
-				<div>
-					<div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-					<div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-				</div>
-				<div>
-					<div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-					<div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-				</div>
-				<div>
-					<div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-					<div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-				</div>
-				<div>
-					<div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-					<div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-				</div>
-				<div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
-			</div>
-		</div>
+		<tbody className="gap-16">
+			{rows.map((row) => {
+				return (
+					<tr
+						// role="status"
+						key={`skeleton${row}`}
+						className="items-center w-full my-8 space-y-2 rounded-sm shadow-sm animate-pulse duration-1000 dark:divide-gray-700 dark:border-gray-700">
+						<td className="place-items-center whitespace-nowrap px-4 py-4 font-medium text-gray-900 dark:text-slate-100">
+							<div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+						</td>
+						<td className="place-items-center whitespace-nowrap px-4 py-4 font-medium text-gray-900 dark:text-slate-100">
+							<div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+						</td>
+						<td className="place-items-center whitespace-nowrap px-4 py-4 font-medium text-gray-900 dark:text-slate-100">
+							<div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+						</td>
+						<td className="place-items-center whitespace-nowrap px-4 py-4 font-medium text-gray-900 dark:text-slate-100">
+							<div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+						</td>
+						<td className="place-items-center whitespace-nowrap px-4 py-4 font-medium text-gray-900 dark:text-slate-100">
+							<div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+						</td>
+					</tr>
+				);
+			})}
+		</tbody>
 	);
 };
