@@ -1,8 +1,10 @@
 import { DashboardCard } from "@/components/ui/dashboard-card";
+import { getCuotasImpagas } from "@/service/supabase/client/Cuotas";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 
 import { redirect } from "next/navigation";
+import { CuotasImpagas } from "./actions";
 
 export default async function Page() {
 	const supabase = await createClient();
@@ -25,7 +27,7 @@ export default async function Page() {
 				<button>Clientes</button>
 			</Link>
 			<div className="w-1/4">
-				<DashboardCard title="Cuotas impagas" data="25" />
+				<CuotasImpagas />
 			</div>
 		</>
 	);
