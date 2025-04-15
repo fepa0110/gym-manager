@@ -3,15 +3,13 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-	faArrowLeft,
-	faDumbbell,
-	faWeightHanging,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faEye } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 import { getClienteById } from "@/service/supabase/Clientes";
-import { CuotasTable } from "./actions";
+import { Cliente } from "@/types/Cliente";
+import { getRutinasByCliente } from "@/service/supabase/Rutinas";
+import { VolverButton } from "./actions";
 
 export default async function Page({
 	params,
@@ -31,11 +29,11 @@ export default async function Page({
 	}
 
 	const cliente: any[] | null = await getClienteById(Number(id));
-	// const cuotasCliente: any[] | null = await getCuotasByCliente(id);
+	const rutinasCliente: any[] | null = await getRutinasByCliente(id);
 
 	const ClientePersonalData = () => {
 		return (
-			<div className="flow-root my-6 w-full">
+			<div className="flow-root my-6">
 				<dl className="-my-3 divide-y divide-zinc-800 text-sm md:w-3/4">
 					<div className="grid grid-cols-1 py-3 sm:grid-cols-3 sm:gap-4">
 						<dt className="font-medium text-zinc-900 dark:text-zinc-400">
@@ -91,37 +89,67 @@ export default async function Page({
 		);
 	};
 
+	const RutinasTable = () => {
+		return (
+			<table className="min-w-full divide-y-2 divide-gray-200 dark:divide-gray-400 bg-background text-sm">
+				<thead className="ltr:text-left rtl:text-right">
+					<tr>
+						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
+							Fecha de creacion
+						</th>
+						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
+							Nombre
+						</th>
+						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
+							Descripcion
+						</th>
+						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
+							Acciones
+						</th>
+					</tr>
+				</thead>
+				<tbody className="divide-y divide-zinc-600">
+					{rutinasCliente?.map((rutina, index) => {
+						return (
+							<tr key={`clientrow${index}`} className="text-center">
+								<td className="whitespace-nowrap px-4 py-4 font-medium text-zinc-900 dark:text-slate-100">
+									{rutina.fecha_creacion}
+								</td>
+								<td className="whitespace-nowrap px-4 py-2 text-zinc-700 dark:text-slate-200">
+									{rutina.nombre}
+								</td>
+								<td className="whitespace-nowrap px-4 py-2 text-zinc-700 dark:text-slate-200">
+									{rutina.descripcion}
+								</td>
+
+								<td className="whitespace-nowrap px-4 py-2 text-zinc-700 dark:text-slate-200">
+									<Link href={`/rutinas/${rutina.id}`}>
+										<FontAwesomeIcon
+											icon={faEye}
+											className="text-primary hover:scale-105"
+										/>
+									</Link>
+								</td>
+							</tr>
+						);
+					})}
+				</tbody>
+			</table>
+		);
+	};
+
 	return (
 		<>
-			<div className="w-full flex flex-row gap-3 items-center">
-				<Link
-					href="/clientes"
-					className="flex flex-row w-28 px-3 py-2 justify-between items-center border border-zinc-700 rounded-lg text-zinc-700 dark:text-zinc-100 hover:scale-105">
-					<FontAwesomeIcon icon={faArrowLeft} size="lg" />
-					Clientes
-				</Link>
-				<h1 className="text-2xl text-primary text-bold">
-					<span>Planilla del cliente</span>
-				</h1>
-			</div>
-
 			{cliente != null ? (
 				<>
-					<section className="flex flex-col-reverse md:flex-row w-full">
-						<ClientePersonalData />
+					<div className="w-full flex flex-row gap-3 items-center">
+						<VolverButton />
+						<h1 className="text-2xl text-primary text-bold">
+							<span>{`Rutinas de ${id}`}</span>
+						</h1>
+					</div>
 
-						<Link
-							href={`/clientes/${id}/rutinas`}
-							// className="flex flex-row w-28 px-3 py-2 justify-between items-center border border-primary rounded-lg text-primary dark:text-primary hover:bg-primary/25 transition-all"
-							className="flex flex-row w-28 h-10 px-3 py-2 justify-between items-center bg-primary border-0 border-primary rounded-lg text-zinc-100 dark:text-zinc-100 hover:scale-105 transition-all">
-							<FontAwesomeIcon icon={faDumbbell} size="1x" />
-							Rutinas
-						</Link>
-					</section>
-
-					<h2 className="text-xl text-primary text-bold">Cuotas</h2>
-
-					<CuotasTable clienteId={id} />
+					<RutinasTable />
 				</>
 			) : (
 				<h1 className="text-lg text-red-600">Cliente NO existe</h1>
