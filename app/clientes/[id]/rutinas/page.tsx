@@ -4,12 +4,17 @@ import { createClient } from "@/utils/supabase/server";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faEye } from "@fortawesome/free-solid-svg-icons";
+import { faSadTear } from "@fortawesome/free-regular-svg-icons";
 import Link from "next/link";
 
 import { getClienteById } from "@/service/supabase/Clientes";
 import { Cliente } from "@/types/Cliente";
 import { getRutinasByCliente } from "@/service/supabase/Rutinas";
 import { VolverButton } from "./actions";
+import { RowsSkeleton } from "@/components/ui/rows-skeleton";
+import { Fragment } from "react";
+import { Button } from "@/components/ui/button";
+import { NotFound } from "@/components/not-found";
 
 export default async function Page({
 	params,
@@ -138,22 +143,31 @@ export default async function Page({
 		);
 	};
 
-	return (
-		<>
-			{cliente != null ? (
+	const RutinasDataOrNotFound = () => {
+		if (cliente?.length != 0) {
+			return (
 				<>
-					<div className="w-full flex flex-row gap-3 items-center">
+					<div className="w-full flex flex-col md:flex-row md:justify-between gap-3 items-center">
 						<VolverButton />
-						<h1 className="text-2xl text-primary text-bold">
-							<span>{`Rutinas de ${id}`}</span>
+
+						<h1 className="w-full text-2xl text-primary text-bold">
+							<span>{`Rutinas de ${cliente!![0].nombre} ${cliente!![0].apellido}`}</span>
 						</h1>
+
+						<Link href={`/rutinas/new/${id}`}>
+							<Button variant="default" size="sm">
+								Nueva rutina
+							</Button>
+						</Link>
 					</div>
 
 					<RutinasTable />
 				</>
-			) : (
-				<h1 className="text-lg text-red-600">Cliente NO existe</h1>
-			)}
-		</>
-	);
+			);
+		} else {
+			return <NotFound message={"Cliente no encontrado"} />;
+		}
+	};
+
+	return <>{cliente != null ? <RutinasDataOrNotFound /> : <RowsSkeleton />}</>;
 }
