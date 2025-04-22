@@ -12,7 +12,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { getClienteById } from "@/service/supabase/Clientes";
 import { NotFound } from "@/components/not-found";
-import { RutinaBasicDataForm, RutinaForm } from "./actions";
+import { RutinaForm } from "./actions";
 
 export default async function Page({
 	params,
