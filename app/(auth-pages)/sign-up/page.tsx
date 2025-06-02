@@ -23,15 +23,15 @@ export default async function Signup(props: {
   return (
     <>
       <form className="flex flex-col min-w-64 max-w-64 mx-auto">
-        <FontAwesomeIcon icon={faFrown} size="4x" />
+        {/* <FontAwesomeIcon icon={faFrown} size="4x" />
         <h1 className="py-3 text-xl font-medium">Por el momento el registro no esta disponible</h1>
         <p className="text-sm text text-foreground">
           Ya tienes una cuenta?{" "}
           <Link className="text-primary font-medium underline" href="/sign-in">
             Ingresar
           </Link>
-        </p>
-        {/* <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
+        </p> */}
+        <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
           <Label text="Email" />
           <Input name="email" placeholder="you@example.com" required />
           <Label text="Contraseña" />
@@ -46,7 +46,7 @@ export default async function Signup(props: {
             Sign up
           </SubmitButton>
           <FormMessage message={searchParams} />
-        </div> */}
+        </div> 
       </form>
     </>
   );
