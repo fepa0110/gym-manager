@@ -1,3 +1,4 @@
+import ShinyText from "@/components/ui/shiny-text";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -16,9 +17,7 @@ export default async function Home() {
 	return (
 		<>
 			<div className="flex flex-col gap-16 justify-center items-center">
-				<p className="text-3xl lg:text-4xl !leading-tight mx-auto max-w-xl text-center">
-					GymManager
-				</p>
+				<ShinyText text="GymManager" disabled={false} speed={3} className='text-3xl text-primary/65 lg:text-4xl !leading-tight mx-auto max-w-xl text-center' />
 				<div className="w-full p-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent mb-8 mt-4" />
 			</div>
 
