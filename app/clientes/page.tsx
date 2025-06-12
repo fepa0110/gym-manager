@@ -60,8 +60,6 @@ export default function Page() {
 		const fromPageRange = (page - 1) * pageSize;
 		const toPageRange = fromPageRange + pageSize - 1;
 
-		console.log(`from ${fromPageRange} to ${toPageRange}`);
-
 		const data = await getClientesPage(fromPageRange, toPageRange);
 		setClientes(data);
 
