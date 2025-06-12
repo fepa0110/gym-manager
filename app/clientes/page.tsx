@@ -8,8 +8,10 @@ import {
 import { Cliente } from "@/types/Cliente";
 import { createClient } from "@/utils/supabase/client";
 import { Temporal } from "temporal-polyfill";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye } from "@fortawesome/free-regular-svg-icons";
+import { faDumbbell } from "@fortawesome/free-solid-svg-icons";
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -17,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Pagination } from "@/components/ui/pagination";
 import { useEffect, useState } from "react";
 import { TableSkeleton } from "@/components/ui/table-skeleton";
+import { Tooltip } from "@/components/ui/tooltip";
 
 export default function Page() {
 	const supabase = createClient();
@@ -57,12 +60,30 @@ export default function Page() {
 		const fromPageRange = (page - 1) * pageSize;
 		const toPageRange = fromPageRange + pageSize - 1;
 
-		console.log(`from ${fromPageRange} to ${toPageRange}`);
-
 		const data = await getClientesPage(fromPageRange, toPageRange);
 		setClientes(data);
 
 		setIsLoading(false);
+	};
+
+	const ClienteAcciones = ({ clienteId }: { clienteId: string }) => {
+		return (
+			<span className="inline-flex divide-x divide-zinc-700 overflow-hidden rounded border-0 border-zinc-700 bg-background shadow-sm">
+				<Link
+					href={`/clientes/${clienteId}`}
+					className="has-tooltip px-3 py-1.5 text-sm font-medium text-zinc-700 dark:text-zinc-200 transition-colors hover:text-primary hover:dark:text-primary focus:relative">
+					<Tooltip text="Planilla" />
+					<FontAwesomeIcon icon={faEye} size="sm" />
+				</Link>
+
+				<Link
+					href={`/clientes/${clienteId}/rutinas`}
+					className="has-tooltip px-3 py-1.5 text-sm font-medium text-zinc-700 dark:text-zinc-200 transition-colors hover:text-primary hover:dark:text-primary focus:relative">
+					<Tooltip text="Rutinas" />
+					<FontAwesomeIcon icon={faDumbbell} size="sm" />
+				</Link>
+			</span>
+		);
 	};
 
 	const ClientesList = () => {
@@ -89,7 +110,7 @@ export default function Page() {
 				</thead>
 
 				{isLoading ? (
-					<TableSkeleton numRows={pageSize-1} numColumns={5} />
+					<TableSkeleton numRows={pageSize - 1} numColumns={5} />
 				) : (
 					<tbody className="divide-y divide-gray-200">
 						{clientes?.map((cliente: Cliente) => {
@@ -110,12 +131,7 @@ export default function Page() {
 										{cliente.observaciones}
 									</td>
 									<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-										<Link href={`/clientes/${cliente.id}`}>
-											<FontAwesomeIcon
-												icon={faEye}
-												className="text-primary hover:scale-105"
-											/>
-										</Link>
+										<ClienteAcciones clienteId={cliente.id} />
 									</td>
 								</tr>
 							);

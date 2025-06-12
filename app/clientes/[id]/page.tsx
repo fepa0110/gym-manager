@@ -3,7 +3,11 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+	faArrowLeft,
+	faDumbbell,
+	faWeightHanging,
+} from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 import { getClienteById } from "@/service/supabase/Clientes";
@@ -31,7 +35,7 @@ export default async function Page({
 
 	const ClientePersonalData = () => {
 		return (
-			<div className="flow-root my-6">
+			<div className="flow-root my-6 w-full">
 				<dl className="-my-3 divide-y divide-zinc-800 text-sm md:w-3/4">
 					<div className="grid grid-cols-1 py-3 sm:grid-cols-3 sm:gap-4">
 						<dt className="font-medium text-zinc-900 dark:text-zinc-400">
@@ -87,8 +91,6 @@ export default async function Page({
 		);
 	};
 
-	
-
 	return (
 		<>
 			<div className="w-full flex flex-row gap-3 items-center">
@@ -105,7 +107,17 @@ export default async function Page({
 
 			{cliente != null ? (
 				<>
-					<ClientePersonalData />
+					<section className="flex flex-col-reverse md:flex-row w-full">
+						<ClientePersonalData />
+
+						<Link
+							href={`/clientes/${id}/rutinas`}
+							// className="flex flex-row w-28 px-3 py-2 justify-between items-center border border-primary rounded-lg text-primary dark:text-primary hover:bg-primary/25 transition-all"
+							className="flex flex-row w-28 h-10 px-3 py-2 justify-between items-center bg-primary border-0 border-primary rounded-lg text-zinc-100 dark:text-zinc-100 hover:scale-105 transition-all">
+							<FontAwesomeIcon icon={faDumbbell} size="1x" />
+							Rutinas
+						</Link>
+					</section>
 
 					<h2 className="text-xl text-primary text-bold">Cuotas</h2>
 

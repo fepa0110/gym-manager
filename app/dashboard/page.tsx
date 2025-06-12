@@ -21,11 +21,19 @@ export default async function Page() {
 		<>
 			<h1 className="text-2xl text-primary font-bold">Dashboard</h1>
 
-			<Link
-				className="font-medium text-xl max-w-32 p-6 border-2 border-primary rounded-lg hover:scale-105 transition-transform"
-				href="/clientes">
-				<button>Clientes</button>
-			</Link>
+			<section className="flex flex-row w-full gap-3">
+				<Link
+					className="font-medium text-xl max-w-32 p-6 border-2 border-primary rounded-lg hover:scale-105 transition-transform"
+					href="/clientes">
+					<button>Clientes</button>
+				</Link>
+				<Link
+					className="font-medium text-xl max-w-32 p-6 border-2 border-primary rounded-lg hover:scale-105 transition-transform"
+					href="/gym/cuotas">
+					<button>Planes</button>
+				</Link>
+			</section>
+
 			<div className="w-1/4">
 				<CuotasImpagas />
 			</div>
