@@ -15,6 +15,7 @@ import { RowsSkeleton } from "@/components/ui/rows-skeleton";
 import { Fragment } from "react";
 import { Button } from "@/components/ui/button";
 import { NotFound } from "@/components/not-found";
+import { Table } from "@/components/Table";
 
 export default async function Page({
 	params,
@@ -96,51 +97,36 @@ export default async function Page({
 
 	const RutinasTable = () => {
 		return (
-			<table className="min-w-full divide-y-2 divide-gray-200 dark:divide-gray-400 bg-background text-sm">
-				<thead className="ltr:text-left rtl:text-right">
-					<tr>
-						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
-							Fecha de creacion
-						</th>
-						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
-							Nombre
-						</th>
-						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
-							Descripcion
-						</th>
-						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
-							Acciones
-						</th>
-					</tr>
-				</thead>
-				<tbody className="divide-y divide-zinc-600">
+			<Table.Root>
+				<Table.Head>
+					<Table.Column name="Fecha de creacion" />
+					<Table.Column name="Nombre" />
+					<Table.Column name="Descripcion" />
+					<Table.Column name="Acciones" />
+				</Table.Head>
+
+				<Table.Body>
 					{rutinasCliente?.map((rutina, index) => {
 						return (
-							<tr key={`clientrow${index}`} className="text-center">
-								<td className="whitespace-nowrap px-4 py-4 font-medium text-zinc-900 dark:text-slate-100">
-									{rutina.fecha_creacion}
-								</td>
-								<td className="whitespace-nowrap px-4 py-2 text-zinc-700 dark:text-slate-200">
-									{rutina.nombre}
-								</td>
-								<td className="whitespace-nowrap px-4 py-2 text-zinc-700 dark:text-slate-200">
-									{rutina.descripcion}
-								</td>
-
-								<td className="whitespace-nowrap px-4 py-2 text-zinc-700 dark:text-slate-200">
+							<Table.Row key={`cuotaClienteRow${rutina.id}`}>
+								<Table.RowData value={rutina.fecha_creacion} />
+								<Table.RowData value={rutina.nombre} />
+								<Table.RowData value={rutina.descripcion} />
+								<Table.RowComponent>
 									<Link href={`/rutinas/${rutina.id}`}>
 										<FontAwesomeIcon
 											icon={faEye}
 											className="text-primary hover:scale-105"
 										/>
 									</Link>
-								</td>
-							</tr>
+								</Table.RowComponent>
+							</Table.Row>
 						);
 					})}
-				</tbody>
-			</table>
+				</Table.Body>
+			</Table.Root>
 		);
+	
 	};
 
 	const RutinasDataOrNotFound = () => {
