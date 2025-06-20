@@ -23,16 +23,18 @@ interface DataRowProps {
 
 const TableRoot = ({ children }: TableRootProps) => {
 	return (
-		<table className="min-w-full divide-y-2 divide-gray-200 dark:divide-gray-400 bg-background text-sm">
-			{children}
-		</table>
+		<div className="relative overflow-x-auto">
+			<table className="min-w-full divide-y-2 divide-gray-200 dark:divide-gray-400 bg-background text-sm">
+				{children}
+			</table>
+		</div>
 	);
 };
 
 const TableHead = ({ children }: TableProps) : ReactNode => {
 	return (
 		<thead className="ltr:text-left rtl:text-right">
-			<tr className="text-center">{children}</tr>
+			<tr>{children}</tr>
 		</thead>
 	);
 };
@@ -59,7 +61,7 @@ export const Row = ({ children, key }: RowProps) => {
 
 export const RowData = ({ value }: DataRowProps) => {
 	return (
-		<td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 dark:text-slate-100">
+		<td className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 dark:text-slate-100">
 			{value}
 		</td>
 	);
@@ -67,7 +69,7 @@ export const RowData = ({ value }: DataRowProps) => {
 
 export const RowComponent = ({ children }: TableProps) => {
 	return (
-		<td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 dark:text-slate-100">
+		<td className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 dark:text-slate-100">
 			{children}
 		</td>
 	);

@@ -20,6 +20,7 @@ import { Pagination } from "@/components/ui/pagination";
 import { useEffect, useState } from "react";
 import { TableSkeleton } from "@/components/ui/table-skeleton";
 import { Tooltip } from "@/components/ui/tooltip";
+import { Table } from "@/components/Table";
 
 export default function Page() {
 	const supabase = createClient();
@@ -88,57 +89,35 @@ export default function Page() {
 
 	const ClientesList = () => {
 		return (
-			<table className="min-w-full divide-y-2 divide-gray-200 dark:divide-gray-400 bg-background text-sm">
-				<thead className="ltr:text-left rtl:text-right">
-					<tr>
-						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
-							Nombre
-						</th>
-						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
-							Apellido
-						</th>
-						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
-							DNI
-						</th>
-						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
-							Observaciones
-						</th>
-						<th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-slate-100">
-							Acciones
-						</th>
-					</tr>
-				</thead>
+			<Table.Root>
+				<Table.Head>
+					<Table.Column name="Nombre" />
+					<Table.Column name="Apellido" />
+					<Table.Column name="DNI" />
+					<Table.Column name="Observaciones" />
+					<Table.Column name="Acciones" />
+				</Table.Head>
 
 				{isLoading ? (
 					<TableSkeleton numRows={pageSize - 1} numColumns={5} />
 				) : (
-					<tbody className="divide-y divide-gray-200">
+					<Table.Body>
 						{clientes?.map((cliente: Cliente) => {
 							return (
-								<tr
-									key={`clientrow${cliente.id}`}
-									className="text-center">
-									<td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 dark:text-slate-100">
-										{cliente.nombre}
-									</td>
-									<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-										{cliente.apellido}
-									</td>
-									<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-										{cliente.dni}
-									</td>
-									<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
-										{cliente.observaciones}
-									</td>
-									<td className="whitespace-nowrap px-4 py-2 text-gray-700 dark:text-slate-200">
+								<Table.Row key={`clienteRow${cliente.id}`}>
+									<Table.RowData value={cliente.nombre} />
+									<Table.RowData value={cliente.apellido} />
+									<Table.RowData value={cliente.dni} />
+									<Table.RowData value={cliente.observaciones || ""} />
+									<Table.RowComponent>
 										<ClienteAcciones clienteId={cliente.id} />
-									</td>
-								</tr>
+									</Table.RowComponent>
+								</Table.Row>
 							);
 						})}
-					</tbody>
+					</Table.Body>
 				)}
-			</table>
+			</Table.Root>
 		);
 	};
 
