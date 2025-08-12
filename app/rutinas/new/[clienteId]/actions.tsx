@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
+import diasRutinaReducer from "./DiasRutinaReducer";
 
 const RutinaBasicDataForm = () => {
 	return (
@@ -49,12 +50,14 @@ const RutinaBasicDataForm = () => {
 	);
 };
 
-const EjercicioDiaSection = ({ejercicioDia}: {
+const EjercicioDiaSection = ({
+	ejercicioDia,
+}: {
 	ejercicioDia: EjercicioDia;
 }) => {
 	return (
-		<fieldset>
-			<div className="flex flex-col md:w-full gap-2">
+		<fieldset className="flex flex-col md:flex-row justify-evenly">
+			<div className="flex flex-col w-full md:w-48 gap-2">
 				<label
 					htmlFor="ejercicio"
 					className="text-zinc-700 dark:text-zinc-100">
@@ -75,14 +78,14 @@ const EjercicioDiaSection = ({ejercicioDia}: {
 				/>
 			</div>
 
-			<div className="flex flex-col md:w-full gap-2">
+			<div className="flex flex-col w-full md:w-16 gap-2">
 				<label
 					htmlFor="series"
 					className="text-zinc-700 dark:text-zinc-100">
 					Series
 				</label>
 				<input
-					className="py-2 px-2 border border-zinc-600 bg-background rounded-md focus:border-primary focus:outline focus:outline-primary"
+					className="w-16 py-2 px-2 border border-zinc-600 bg-background rounded-md focus:border-primary focus:outline focus:outline-primary"
 					type="number"
 					id="series"
 					name="series"
@@ -91,14 +94,14 @@ const EjercicioDiaSection = ({ejercicioDia}: {
 				/>
 			</div>
 
-			<div className="flex flex-col md:w-full gap-2">
+			<div className="flex flex-col w-full md:w-20 gap-2">
 				<label
 					htmlFor="repeticiones"
 					className="text-zinc-700 dark:text-zinc-100">
 					Repeticiones
 				</label>
 				<input
-					className="py-2 px-2 border border-zinc-600 bg-background rounded-md focus:border-primary focus:outline focus:outline-primary"
+					className="w-16 py-2 px-2 border border-zinc-600 bg-background rounded-md focus:border-primary focus:outline focus:outline-primary"
 					type="number"
 					id="repeticiones"
 					name="repeticiones"
@@ -107,7 +110,7 @@ const EjercicioDiaSection = ({ejercicioDia}: {
 				/>
 			</div>
 
-			<div className="flex flex-col md:w-full gap-2">
+			<div className="flex flex-col w-full md:w-48 gap-2">
 				<label
 					htmlFor="observaciones"
 					className="text-zinc-700 dark:text-zinc-100">
@@ -127,6 +130,12 @@ const EjercicioDiaSection = ({ejercicioDia}: {
 };
 
 const DiasRutinaData = ({ diasRutina }: { diasRutina: DiaRutina[] }) => {
+	const ejercicioNuevo = {
+		ejercicio: "",
+		series: 1,
+		repeticiones: 1,
+	};
+
 	return (
 		<section className="w-3/4 my-3">
 			{diasRutina.map((diaRutina) => {
@@ -148,6 +157,14 @@ const DiasRutinaData = ({ diasRutina }: { diasRutina: DiaRutina[] }) => {
 								);
 							}
 						)}
+
+						<button
+							className="max-w-64 px-3 py-2 border border-primary border-dashed rounded-lg text-primary hover:scale-105 transition-all"
+							onClick={() => {
+								diaRutina.ejerciciosDia.push(ejercicioNuevo);
+							}}>
+							Agregar ejercicio
+						</button>
 					</section>
 				);
 			})}
@@ -156,9 +173,22 @@ const DiasRutinaData = ({ diasRutina }: { diasRutina: DiaRutina[] }) => {
 };
 
 export const RutinaForm = () => {
-	const [diasRutina, setDiasRutina] = useState<DiaRutina[]>([]);
+	// const [diasRutina, setDiasRutina] = useState<DiaRutina[]>([]);
+	const diaRutinaInitial : DiaRutina = {
+		dia: 1,
+		descripcion: "",
+		ejerciciosDia: [
+			{
+				ejercicio: "",
+				series: 1,
+				repeticiones: 1,
+			},
+		],
+	}
 
-	function nuevoDiaRutina() {
+	const [diasRutina, dispatch] = useReducer(diasRutinaReducer, []);
+
+	/* function nuevoDiaRutina() {
 		setDiasRutina((prevState) => [
 			...prevState,
 			{
@@ -173,10 +203,10 @@ export const RutinaForm = () => {
 				],
 			},
 		]);
-	}
+	} */
 
 	useEffect(() => {
-		nuevoDiaRutina();
+		// nuevoDiaRutina();
 	}, []);
 
 	return (

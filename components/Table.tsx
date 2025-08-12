@@ -10,7 +10,7 @@ type TableProps = {
 
 type RowProps = {
 	children: ReactNode;
-	key?: string;
+	key: string;
 };
 
 interface ColumnProps {
