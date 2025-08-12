@@ -1,6 +1,7 @@
 import { faReceipt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CountUp from "./count-up";
+import ShinyText from "./shiny-text";
 
 interface DashboardCardProps {
 	title: string;
